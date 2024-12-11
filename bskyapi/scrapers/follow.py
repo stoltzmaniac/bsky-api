@@ -21,8 +21,10 @@ class ProfileScraper:
             params.cursor = cursor
         return self.bsky_client.client.app.bsky.graph.get_followers(params)
     
-    def fetch_all_profiles(self, actors: list) -> models.AppBskyActorGetProfiles.Response:
-        return self.bsky_client.client.get_profiles(actors)
+    def fetch_all_profiles(self, actors: list) -> dict:
+        fetched =  self.bsky_client.client.get_profiles(actors)
+        return fetched.model_dump()
+
     
     def fetch_all_follows(self, actor: str, limit: int = 1000) -> t.List[models.AppBskyGraphGetFollows.Response]:
         limit_check = 0

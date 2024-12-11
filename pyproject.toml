@@ -13,6 +13,7 @@ keywords = ["bluesky", "bsky", "api", "wrapper", "atproto"]
 [tool.poetry.dependencies]
 python = ">=3.11,<3.14"
 atproto = "^0.0.56"
+python-dotenv = "^1.0.1"
 
 
 [tool.poetry.group.dev.dependencies]
