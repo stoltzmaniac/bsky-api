@@ -9,7 +9,7 @@ class SearchTermScraper:
     def __init__(self, bsky_client: BskyApiClient, writer: DataWriter = None):
         """
         :param bsky_client: Instance of BskyApiClient.
-        :param writer: Optional instance of DataWriter for writing fetched data.
+        :param writer: Writer instance for outputting fetched posts.
         """
         self.bsky_client = bsky_client
         self.writer = writer
@@ -20,7 +20,12 @@ class SearchTermScraper:
             params['cursor'] = cursor
         return self.bsky_client.client.app.bsky.feed.search_posts(params=params)
 
-    def fetch_all_posts(self, search_term: str, limit: int = 1000) -> t.List[dict]:
+    def fetch_all_posts(
+        self, 
+        search_term: str, 
+        limit: int = 1000, 
+        output_file: str = "search_results.json"
+    ) -> t.List[models.AppBskyFeedSearchPosts.Response]:
         all_posts = []
         cursor = None
         while True:
@@ -33,9 +38,9 @@ class SearchTermScraper:
             if int(cursor) > limit:
                 break
             time.sleep(2)
-        
-        # If a writer is provided, delegate the writing task
+
+        # Write the fetched posts using the writer
         if self.writer:
-            self.writer.write(all_posts)
-        
+            self.writer.write(all_posts, destination=output_file)
+
         return all_posts
