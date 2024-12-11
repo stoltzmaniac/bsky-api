@@ -9,7 +9,7 @@ pip install bsky-api
 
 ### Example usage
 
-```
+```python
 import os
 from dotenv import load_dotenv
 from bskyapi.clients import BskyApiClient
